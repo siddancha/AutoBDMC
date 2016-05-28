@@ -1,0 +1,4 @@
+[submodule "cmdstan"]
+	path = cmdstan
+	url = https://github.com/siddancha/cmdstan
+	branch = develop
