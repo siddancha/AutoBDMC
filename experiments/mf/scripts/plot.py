@@ -27,7 +27,7 @@ def main():
 	all_steps = np.concatenate([uc_dict["aisSteps"], uc_dict["raisSteps"], c_dict["aisSteps"], c_dict["raisSteps"]])
 	plt.xlim(*pretty_xlim(min(all_steps), max(all_steps)))
 	plt.savefig('experiments/mf/plots/steps.pdf', format='pdf', dpi=1000)
-	plt.clear()
+	plt.clf()
 	
 	uc_dict = read("experiments/mf/results/output_uc", sort="times")
 	c_dict = read("experiments/mf/results/output_c", sort="times")
