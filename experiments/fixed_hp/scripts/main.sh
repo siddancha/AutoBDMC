@@ -27,11 +27,11 @@ if [[ ! -f $MYHOME/gen ]]; then
 fi
 
 if [[ ! -f models/lin_regression ]]; then
-	echo "Compiling lin_regression.stan"
+	echo "Compiling lin_regression.stan ..."
 	make -C cmdstan ../models/lin_regression
 fi
 if [[ ! -f $MYHOME/lr_fixed_hp ]]; then
-	echo "Compiling lr_fixed_hp.stan"
+	echo "Compiling lr_fixed_hp.stan ..."
 	make -C cmdstan ../$MYHOME/lr_fixed_hp
 fi
 

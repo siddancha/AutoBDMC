@@ -1,7 +1,7 @@
 # User options
-N=10
+N=50
 L=5
-D=10
+D=25
 STEPS_UC=( 250 500 750 1000 1250 1500 1750 2000 2250 2500 2750 3000 3250 3500 3750 4000 4250 4500 4750 5000 5250 5500 5750 6000 6250 6500 6750 7000 7250 7500 7750 8000 8250 8500 8750 9000 9250 9500 9750 10000 )
 SAMPLES_UC=50
 STEPS_C=( 100 200 300 400 500 600 700 800 900 1000 1100 1200 1300 1400 1500 1600 1700 1800 1900 2000 )
@@ -83,7 +83,7 @@ else
 fi
 
 echo "Creating plots ... "
-python -m experiments.mf.scripts.plot
+python -m experiments.mf.scripts.plot 8 11 
 echo "Note: Figures are now available in $MYHOME/plots"
 
 echo "Done."
