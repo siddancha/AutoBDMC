@@ -14,7 +14,7 @@ def main():
 	plt.title("Real dataset validation - Bayesian Linear Regression")
 	plt.legend(loc="lower right")
 	all_steps = np.concatenate([s_dict["aisSteps"], s_dict["raisSteps"], r_dict["aisSteps"]])
-	plt.xlim(*pretty_xlim(min(all_steps), max(all_steps)))
+	plt.xlim(*pretty_xlim(min(all_steps), max(all_steps), scale='log'))
 	plt.xscale('log')
 	plt.savefig("experiments/real_data/plots/plot.pdf", format='pdf', dpi=1000)
 

@@ -20,7 +20,7 @@ fi
 
 if [[ ! $@ =~ --run ]]; then exit 1; fi
 
-if [[ ! -f $MYHOME/gen ]]; then
+if [[ ! -d $MYHOME/gen ]]; then
 	echo "Creating folders ..."
 	mkdir $MYHOME/gen
 	mkdir $MYHOME/plots
@@ -45,7 +45,7 @@ if [[ ! -f $MYHOME/gen/exact_sample.txt ]]; then
 	$MYHOME/lr_fixed_hp bdmc schedule=sigmoidal num_warmup=10 iterations start_steps=10 exact_sample save_file=$MYHOME/gen/exact_sample.txt save_samples=0 data file=$MYHOME/gen/lr.data.R output file= random seed=$SEED > /dev/null
 fi
 
-if [[ ! -f $MYHOME/results ]]; then
+if [[ ! -d $MYHOME/results ]]; then
 	echo "Creating results folder ..."
 	mkdir $MYHOME/results
 	for BURN in ${BURN_LIST[*]}; do
@@ -55,7 +55,8 @@ if [[ ! -f $MYHOME/results ]]; then
 fi
 
 echo "Creating job file ..."
-rm $MYHOME/jobs.list
+if [[ -f $MYHOME/jobs.list ]]; then rm $MYHOME/jobs.list; fi
+touch $MYHOME/jobs.list
 for BURN in ${BURN_LIST[*]}; do
 	for STEPS in ${STEPS_LIST[*]}; do
 		OUTPUT_FILE=$MYHOME/results/burn_${BURN}/output_${STEPS}_${SAMPLES}.csv

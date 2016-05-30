@@ -48,7 +48,7 @@ if [[ ! -d $MYHOME/results ]]; then
 fi
 
 echo "Creating job list ..."
-rm $MYHOME/jobs.list
+if [[ -f $MYHOME/jobs.list ]]; then rm $MYHOME/jobs.list; fi
 touch $MYHOME/jobs.list
 for STEPS in ${STEPS_LIST[*]}; do
 	OUTPUT_FILE="$MYHOME/results/synthetic/output_${STEPS}_${SAMPLES}.csv"

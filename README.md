@@ -16,7 +16,7 @@ bash experiments/<EXP_NAME>/scripts/main.sh [--run] [--parallel] [--clean]
 To actually run the experiment.<br>
 
 <li><code>--parallel</code><br>
-An experiment consists of a set of independent jobs, which are run serially by default. If you have access to a CPU cluster with <a href=http://www.gnu.org/software/parallel>gnu parallel</a> installed, you can use this flag to parallelize the
+An experiment consists of a set of independent jobs, which are run serially by default. If you have access to a CPU cluster with <a href=http://www.gnu.org/software/parallel>GNU parallel</a> installed, you can use this flag to parallelize the
 jobs.<br>
 
 <li><code>--clean</code><br>

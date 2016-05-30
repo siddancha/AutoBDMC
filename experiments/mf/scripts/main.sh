@@ -58,7 +58,8 @@ if [[ ! -d $MYHOME/results ]]; then
 fi
 
 echo "Creating job file ..."
-rm $MYHOME/jobs.list
+if [[ -f $MYHOME/jobs.list ]]; then rm $MYHOME/jobs.list; fi
+touch $MYHOME/jobs.list
 for STEPS in ${STEPS_UC[*]}; do
 	OUTPUT_FILE="$MYHOME/results/output_uc/output_${STEPS}_${SAMPLES_UC}.csv"
 	if [ ! -f $OUTPUT_FILE ]; then
