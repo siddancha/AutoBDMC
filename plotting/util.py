@@ -36,6 +36,12 @@ def read_files(folder, sort='steps'):
 		raisTimes, raisMeans, raisVars, raisSteps = zip(*sorted(zip(raisTimes, raisMeans, raisVars, raisSteps)))
 	return aisSteps, aisMeans, aisVars, aisTimes, raisSteps, raisMeans, raisVars, raisTimes
 
+def read_files_dict(folder, sort="steps"):
+	aisSteps, aisMeans, aisVars, aisTimes, raisSteps, raisMeans, raisVars, raisTimes = read_files(folder, sort)
+	return dict(aisSteps=aisSteps, aisMeans=aisMeans, aisVars=aisVars, aisTimes=aisTimes,\
+							raisSteps=raisSteps, raisMeans=raisMeans, raisVars=raisVars, raisTimes=raisTimes);
+
+
 def pretty_xlim(xmin, xmax, delta=0.01, scale="linear"):
 	if scale == "linear":
 		left, right = xmin - delta*(xmax-xmin), xmax + delta*(xmax-xmin)

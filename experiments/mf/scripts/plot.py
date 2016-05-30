@@ -1,19 +1,14 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import sys
-from plotting.util import read_files, pretty_xlim
-
-def read(folder, sort="steps"):
-	aisSteps, aisMeans, aisVars, aisTimes, raisSteps, raisMeans, raisVars, raisTimes = read_files(folder, sort)
-	return dict(aisSteps=aisSteps, aisMeans=aisMeans, aisVars=aisVars, aisTimes=aisTimes,\
-							raisSteps=raisSteps, raisMeans=raisMeans, raisVars=raisVars, raisTimes=raisTimes);
+from plotting.util import read_files_dict, pretty_xlim
 
 def main():
 	uc_trunc = int(sys.argv[1]) if len(sys.argv) > 1 else 0 #8
 	c_trunc = int(sys.argv[2]) if len(sys.argv) > 2 else 0  #-6
 	
-	uc_dict = read("experiments/mf/results/output_uc", sort="steps")
-	c_dict = read("experiments/mf/results/output_c", sort="steps")
+	uc_dict = read_files_dict("experiments/mf/results/output_uc", sort="steps")
+	c_dict = read_files_dict("experiments/mf/results/output_c", sort="steps")
 	uc_dict = {key:uc_dict[key][:(uc_trunc if uc_trunc != 0 else len(uc_dict[key]))] for key in uc_dict}
 	
 	plt.errorbar(uc_dict["aisSteps"], uc_dict["aisMeans"], uc_dict["aisVars"], c='red', label='ucAIS')

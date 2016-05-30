@@ -2,10 +2,10 @@
 N=100
 K=10
 BURN_LIST=( 10 100 1000 10000 )
-STEPS_LIST=( 200 400 800 1200 1600 2000 2500 3000 3500 )
-SAMPLES=10
+STEPS_LIST=( 200 400 800 1200 1600 2000 2500 3000 3500 4000 4500 )
+SAMPLES=50
 WARMUP=1000
-SEED=6
+SEED=8
 
 MYHOME=experiments/fixed_hp
 
@@ -26,9 +26,9 @@ if [[ ! -f $MYHOME/gen ]]; then
 	mkdir $MYHOME/plots
 fi
 
-if [[ ! -f models/lin_regression ]]; then
-	echo "Compiling lin_regression.stan ..."
-	make -C cmdstan ../models/lin_regression
+if [[ ! -f models/lin_regression_hp ]]; then
+	echo "Compiling lin_regression_hp.stan ..."
+	make -C cmdstan ../models/lin_regression_hp
 fi
 if [[ ! -f $MYHOME/lr_fixed_hp ]]; then
 	echo "Compiling lr_fixed_hp.stan ..."
@@ -60,7 +60,7 @@ for BURN in ${BURN_LIST[*]}; do
 	for STEPS in ${STEPS_LIST[*]}; do
 		OUTPUT_FILE=$MYHOME/results/burn_${BURN}/output_${STEPS}_${SAMPLES}.csv
 		if [[ ! -f $OUTPUT_FILE ]]; then
-			echo "models/lin_regression bdmc schedule=sigmoidal num_warmup=$WARMUP ais num_weights=$SAMPLES rais num_weights=$SAMPLES num_burn_in=$BURN iterations start_steps=$STEPS exact_sample load_file=$MYHOME/gen/exact_sample.txt save_samples=0 data file=$MYHOME/gen/lr.data.R output file=$OUTPUT_FILE random seed=$SEED" >> $MYHOME/jobs.list
+			echo "models/lin_regression_hp bdmc schedule=sigmoidal num_warmup=$WARMUP ais num_weights=$SAMPLES rais num_weights=$SAMPLES num_burn_in=$BURN iterations start_steps=$STEPS exact_sample load_file=$MYHOME/gen/exact_sample.txt save_samples=0 data file=$MYHOME/gen/lr.data.R output file=$OUTPUT_FILE random seed=$SEED" >> $MYHOME/jobs.list
 		fi
 	done
 done

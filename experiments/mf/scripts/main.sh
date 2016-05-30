@@ -22,35 +22,35 @@ fi
 
 if [[ ! $@ =~ --run ]]; then exit 1; fi
 
-if [ ! -d $MYHOME/gen ]; then
+if [[ ! -d $MYHOME/gen ]]; then
 	echo  "Creating folders ..."
 	mkdir $MYHOME/gen
 	mkdir $MYHOME/plots
 fi
 
-if [ ! -f models/collapsed ]; then
+if [[ ! -f models/collapsed ]]; then
 	echo "Compiling collapsed.stan ..."
 	make -C cmdstan ../models/collapsed
 fi
-if [ ! -f models/uncollapsed ]; then
+if [[ ! -f models/uncollapsed ]]; then
 	echo "Compiling uncollapsed.stan ..."
 	make -C cmdstan ../models/uncollapsed
 fi
 
-if [ ! -f $MYHOME/gen/uncollapsed.data.R ]; then
+if [[ ! -f $MYHOME/gen/uncollapsed.data.R ]]; then
 	echo "Creating data files ..."
 	python $MYHOME/scripts/gen_data_file.py $N $L $D > $MYHOME/gen/uncollapsed.data.R
 	cp $MYHOME/gen/uncollapsed.data.R $MYHOME/gen/collapsed.data.R
 fi
 
-if [ ! -f $MYHOME/gen/uncollapsed_es.txt ]; then
+if [[ ! -f $MYHOME/gen/uncollapsed_es.txt ]]; then
 	echo "Creating exact sample for uncollapsed ..."
 	models/uncollapsed bdmc schedule=sigmoidal num_warmup=10 iterations start_steps=10 exact_sample save_file=$MYHOME/gen/uncollapsed_es.txt save_samples=0 data file=$MYHOME/gen/uncollapsed.data.R output file= random seed=$SEED > /dev/null
 	echo "Converting to exact sample for collapsed ..."
 	python $MYHOME/scripts/convert_es.py $MYHOME/gen/uncollapsed_es.txt $N $L $D > $MYHOME/gen/collapsed_es.txt
 fi
 
-if [ ! -d $MYHOME/results ]; then
+if [[ ! -d $MYHOME/results ]]; then
 	echo "Creating results folder ..."
 	mkdir $MYHOME/results
 	mkdir $MYHOME/results/output_uc
