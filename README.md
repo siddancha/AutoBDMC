@@ -7,6 +7,12 @@ This repository contains an implementation of this tool in Stan (and WebPPL), as
 and demonstrate scientific findings produced by it.
 
 ## Instructions
+
+### Installation
+Run: <code>make install</code>
+
+This installs WebPPL. Stan need not be installed as it compiles on the go.
+### Experiments
 Each experiment is represented by a subfolder in the "experiments" folder. To run an experiment from scratch, run
 ```sh
 bash experiments/<EXP_NAME>/scripts/main.sh [--run] [--parallel] [--clean]

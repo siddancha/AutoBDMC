@@ -2,3 +2,7 @@
 	path = cmdstan
 	url = https://github.com/siddancha/cmdstan
 	branch = develop
+[submodule "webppl"]
+	path = webppl
+	url = https://github.com/siddancha/webppl
+	branch = old-dev
