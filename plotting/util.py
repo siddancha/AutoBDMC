@@ -3,9 +3,8 @@ import numpy as np
 import os
 
 def extract_list (string):
-	ll = string.find('[')
-	rr = string.find(']')
-	return [float(elem) for elem in string[ll+1:rr].split(',')]
+	pairs = [elem.split(',') for elem in string[:-2].translate(None, ' [](').split('),')]
+	return [(float(pair[0]), float(pair[1])) for pair in pairs]
 
 def read_files(folder, sort='steps'):
 	files = [elem for elem in os.listdir(folder) if elem[0] == 'o']
@@ -15,13 +14,17 @@ def read_files(folder, sort='steps'):
 	raisMeans, raisVars, raisTimes = [], [], []
 	for filename in files:
 		f = open(folder + "/" + filename, 'rb')
-		lines = f.readlines()[-9:]
-		aisMeans.extend(extract_list(lines[2]))
-		aisVars.extend(extract_list(lines[3]))
-		aisTimes.extend(extract_list(lines[4]))
-		raisMeans.extend(extract_list(lines[6]))
-		raisVars.extend(extract_list(lines[7]))
-		raisTimes.extend(extract_list(lines[8]))
+		lines = [line.rstrip() for line in f.readlines()]
+		aisIndex = lines.index('#---- AIS ----')
+		raisIndex = lines.index('#-- Rev-AIS --')
+		aisData = [extract_list(line) for line in lines[aisIndex+1:raisIndex]]
+		raisData = [extract_list(line) for line in lines[raisIndex+1:]]
+		aisMeans.extend([np.array([elem[0] for elem in row]).mean() for row in aisData])
+		aisVars.extend([np.array([elem[0] for elem in row]).std() for row in aisData])
+		aisTimes.extend([np.array([elem[1] for elem in row]).mean() for row in aisData])
+		raisMeans.extend([np.array([elem[0] for elem in row]).mean() for row in raisData])
+		raisVars.extend([np.array([elem[0] for elem in row]).std() for row in raisData])
+		raisTimes.extend([np.array([elem[1] for elem in row]).mean() for row in raisData])
 	aisMeans, aisVars, aisTimes, raisMeans, raisVars, raisTimes =\
 		(np.array(elem) for elem in (aisMeans, aisVars, aisTimes, raisMeans, raisVars, raisTimes))
 	aisVars = 1.96 * aisVars / np.sqrt(samples)
