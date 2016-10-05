@@ -8,9 +8,9 @@ def main():
 	burns = [int(elem.split('_')[1].split('.')[0]) for elem in folders]
 	xmin, xmax = np.inf, -np.inf
 	for burn, burn_folder in zip(burns, folders):
-		aisSteps, aisMeans, aisVars, aisTimes, raisSteps, raisMeans, raisVars, raisTimes =\
+		aisSteps, aisMeans, aisLowers, aisUppers, aisTimes, raisSteps, raisMeans, raisLowers, raisUppers, raisTimes =\
 			read_files("experiments/fixed_hp/results/" + burn_folder, "steps")
-		plt.errorbar(raisSteps, raisMeans, raisVars, label=str(burn))
+		plt.errorbar(raisSteps, raisMeans, np.array([raisLowers, raisUppers]), label=str(burn))
 		xmin, xmax = min(xmin, min(raisSteps)), max(xmax, max(raisSteps))
 	plt.xlabel("Number of HMC/No-U-Turn iterations")
 	plt.ylabel("Log ML estimate")
@@ -22,12 +22,12 @@ def main():
 
 	legend_handles, legend_labels = [], []
 	for burn, burn_folder in zip(burns, folders):
-		aisSteps, aisMeans, aisVars, aisTimes, raisSteps, raisMeans, raisVars, raisTimes =\
+		aisSteps, aisMeans, aisLowers, aisUppers, aisTimes, raisSteps, raisMeans, raisLowers, raisUppers, raisTimes =\
 			read_files("experiments/fixed_hp/results/" + burn_folder, "steps")
-		rhandle, _, _ = plt.errorbar(raisSteps, raisMeans, raisVars)
+		rhandle, _, _ = plt.errorbar(raisSteps, raisMeans, np.array([raisLowers, raisUppers]))
 		legend_handles.append(rhandle)
 		legend_labels.append('RAIS ' + str(burn))
-		ahandle, _, _ = plt.errorbar(aisSteps, aisMeans, aisVars, color='red', linestyle='--')
+		ahandle, _, _ = plt.errorbar(aisSteps, aisMeans, np.array([aisLowers, aisUppers]), color='red', linestyle='--')
 	legend_handles.append(ahandle)
 	legend_labels.append('AIS')
 

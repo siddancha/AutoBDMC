@@ -6,9 +6,9 @@ def main():
 	s_dict = read_files_dict("experiments/real_data/results/synthetic")
 	r_dict = read_files_dict("experiments/real_data/results/real")
 	
-	plt.errorbar(s_dict["raisSteps"], s_dict["raisMeans"], s_dict["raisVars"], c='darkred', label='synthetic-RAIS')
-	plt.errorbar(s_dict["aisSteps"], s_dict["aisMeans"], s_dict["aisVars"], c='red', label='synthetic-AIS')
-	plt.errorbar(r_dict["aisSteps"], r_dict["aisMeans"], s_dict["aisVars"], c='blue', label='real-AIS')
+	plt.errorbar(s_dict["raisSteps"], s_dict["raisMeans"], np.array([s_dict["raisLowers"], s_dict["raisUppers"]]), c='darkred', label='synthetic-RAIS')
+	plt.errorbar(s_dict["aisSteps"], s_dict["aisMeans"], np.array([s_dict["aisLowers"], s_dict["aisUppers"]]), c='red', label='synthetic-AIS')
+	plt.errorbar(r_dict["aisSteps"], r_dict["aisMeans"], np.array([s_dict["aisLowers"], s_dict["aisUppers"]]), c='blue', label='real-AIS')
 	plt.xlabel("Numer of HMC/No-U-Turn Iterations")
 	plt.ylabel("Log ML estimate")
 	plt.title("Real dataset validation - Bayesian Linear Regression")
