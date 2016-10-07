@@ -11,10 +11,10 @@ def main():
 	c_dict = read_files_dict("experiments/mf/results/output_c", sort="steps")
 	uc_dict = {key:uc_dict[key][:(uc_trunc if uc_trunc != 0 else len(uc_dict[key]))] for key in uc_dict}
 	
-	plt.errorbar(uc_dict["aisSteps"], uc_dict["aisMeans"], uc_dict["aisVars"], c='red', label='ucAIS')
-	plt.errorbar(uc_dict["raisSteps"], uc_dict["raisMeans"], uc_dict["raisVars"], c='darkred', label='ucRAIS')
-	plt.errorbar(c_dict["aisSteps"], c_dict["aisMeans"], c_dict["aisVars"], c='blue', label='cAIS')
-	plt.errorbar(c_dict["raisSteps"], c_dict["raisMeans"], c_dict["raisVars"], c='darkblue', label='cRAIS')
+	plt.errorbar(uc_dict["aisSteps"], uc_dict["aisMeans"], np.array([uc_dict["aisLowers"], uc_dict["aisUppers"]]), c='red', label='ucAIS')
+	plt.errorbar(uc_dict["raisSteps"], uc_dict["raisMeans"], np.array([uc_dict["raisLowers"], uc_dict["raisUppers"]]), c='darkred', label='ucRAIS')
+	plt.errorbar(c_dict["aisSteps"], c_dict["aisMeans"], np.array([c_dict["aisLowers"], c_dict["aisUppers"]]), c='blue', label='cAIS')
+	plt.errorbar(c_dict["raisSteps"], c_dict["raisMeans"], np.array([c_dict["raisLowers"], c_dict["raisUppers"]]), c='darkblue', label='cRAIS')
 	plt.xlabel("HMC/No-U-Turn Steps")
 	plt.ylabel("Marginal Likelihood (nats)")
 	plt.title("Collapsed vs Uncollapsed Matrix Factorization - Steps")
@@ -24,14 +24,14 @@ def main():
 	plt.savefig('experiments/mf/plots/steps.pdf', format='pdf', dpi=1000)
 	plt.clf()
 	
-	uc_dict = read("experiments/mf/results/output_uc", sort="times")
-	c_dict = read("experiments/mf/results/output_c", sort="times")
+	uc_dict = read_files_dict("experiments/mf/results/output_uc", sort="times")
+	c_dict = read_files_dict("experiments/mf/results/output_c", sort="times")
 	c_dict = {key:c_dict[key][:(c_trunc if c_trunc != 0 else len(c_dict[key]))] for key in c_dict}
 
-	plt.errorbar(uc_dict["aisTimes"], uc_dict["aisMeans"], uc_dict["aisVars"], c='red', label='ucAIS')
-	plt.errorbar(uc_dict["raisTimes"], uc_dict["raisMeans"], uc_dict["raisVars"], c='darkred', label='ucRAIS')
-	plt.errorbar(c_dict["aisTimes"], c_dict["aisMeans"], c_dict["aisVars"], c='blue', label='cAIS')
-	plt.errorbar(c_dict["raisTimes"], c_dict["raisMeans"], c_dict["raisVars"], c='darkblue', label='cRAIS')
+	plt.errorbar(uc_dict["aisTimes"], uc_dict["aisMeans"], np.array([uc_dict["aisLowers"], uc_dict["aisUppers"]]), c='red', label='ucAIS')
+	plt.errorbar(uc_dict["raisTimes"], uc_dict["raisMeans"], np.array([uc_dict["raisLowers"], uc_dict["raisUppers"]]), c='darkred', label='ucRAIS')
+	plt.errorbar(c_dict["aisTimes"], c_dict["aisMeans"], np.array([c_dict["aisLowers"], c_dict["aisUppers"]]), c='blue', label='cAIS')
+	plt.errorbar(c_dict["raisTimes"], c_dict["raisMeans"], np.array([c_dict["raisLowers"], c_dict["raisUppers"]]), c='darkblue', label='cRAIS')
 	plt.xlabel("Time (in sec)")
 	plt.ylabel("Marginal Likelihood (nats)")
 	plt.title("Collapsed vs Uncollapsed Matrix Factorization - Time")
