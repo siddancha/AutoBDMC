@@ -16,7 +16,8 @@ def main():
 	plt.ylabel("Log ML estimate")
 	plt.title("Reverse AIS estimates for Fixed Hyperparameter Scheme")
 	plt.legend(loc="upper right")
-	plt.xlim(*pretty_xlim(xmin, xmax))
+	plt.xscale("log")
+	plt.xlim(*pretty_xlim(xmin, xmax, scale="log"))
 	plt.savefig('experiments/fixed_hp/plots/only_rais.pdf', format='pdf', dpi=1000)
 	plt.clf()
 
@@ -34,7 +35,8 @@ def main():
 	plt.xlabel("Number of HMC/No-U-Turn iterations")
 	plt.ylabel("Log ML estimate")
 	plt.legend(legend_handles, legend_labels, loc="lower right")
-	plt.xlim(*pretty_xlim(xmin, xmax))
+	plt.xscale("log")
+	plt.xlim(*pretty_xlim(xmin, xmax, scale="log"))
 	plt.savefig('experiments/fixed_hp/plots/ais_rais.pdf', format='pdf', dpi=1000)
 
 if __name__ == '__main__':
