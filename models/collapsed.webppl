@@ -1,0 +1,24 @@
+var N = undefined;
+var L = undefined;
+var D = undefined;
+var STEPS = undefined;
+var LOADPATH = undefined;
+var SAVEPATH = undefined;
+
+var repeat_function = function(n, func) {
+	if (n === 0) return;
+	repeat_function(n-1, func);
+	func(n-1);
+}
+
+var mu = repeat(D, function(){return 0});
+
+var mymodel = function(){
+
+	var v = repeat(L, function(){return repeat(D, function(){return gaussian(0, 1)})});
+	var S = numeric.add(numeric.dot(numeric.transpose(v), v), numeric.identity(D));
+
+	repeat_function(N, function(n){observe(multivariateGaussianERP, [mu, S])});
+}
+
+BDMC (mymodel, {steps:[STEPS], samples:1, loadExactSamplePath:LOADPATH, saveExactSamplePath:SAVEPATH});

@@ -1,0 +1,27 @@
+var N = undefined;
+var L = undefined;
+var D = undefined;
+var STEPS = undefined;
+var LOADPATH = undefined;
+var SAVEPATH = undefined;
+
+var repeat_function = function(n, func) {
+	if (n === 0) return;
+	repeat_function(n-1, func);
+	func(n-1);
+}
+
+var mymodel = function(){
+
+	var u = repeat(N, function(){return repeat(L, function(){return gaussian(0, 1)})});
+	var v = repeat(L, function(){return repeat(D, function(){return gaussian(0, 1)})});
+	var mu = numeric.dot(u, v);
+
+	repeat_function(N, function(n){
+		repeat_function(D, function(d){
+			observe(gaussianERP, [mu[n][d], 1.0]);
+		})
+	})		
+}
+
+BDMC (mymodel, {steps:[STEPS], samples:1, loadExactSamplePath:LOADPATH, saveExactSamplePath:SAVEPATH});

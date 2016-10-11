@@ -9,7 +9,7 @@ SAMPLES_C=50
 WARMUP=1000
 SEED=1
 
-MYHOME=experiments/mf
+MYHOME=experiments/mf/stan
 
 if [[ $@ =~ --clean ]]; then
 	printf "Cleaning experiment files ... "
@@ -84,7 +84,7 @@ else
 fi
 
 echo "Creating plots ... "
-python -m experiments.mf.scripts.plot 8 11 
+python -m experiments.mf.stan.scripts.plot 8 11 
 echo "Note: Figures are now available in $MYHOME/plots"
 
 echo "Done."
