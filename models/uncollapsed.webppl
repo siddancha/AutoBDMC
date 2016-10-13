@@ -2,6 +2,7 @@ var N = undefined;
 var L = undefined;
 var D = undefined;
 var STEPS = undefined;
+var SAMPLES = undefined;
 var LOADPATH = undefined;
 var SAVEPATH = undefined;
 
@@ -24,4 +25,4 @@ var mymodel = function(){
 	})		
 }
 
-BDMC (mymodel, {steps:[STEPS], samples:1, loadExactSamplePath:LOADPATH, saveExactSamplePath:SAVEPATH});
+BDMC (mymodel, {steps:[STEPS], samples:SAMPLES, loadExactSamplePath:LOADPATH, saveExactSamplePath:SAVEPATH});
