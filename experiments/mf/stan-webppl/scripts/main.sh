@@ -52,18 +52,18 @@ if [[ ! -f $MYHOME/gen/collapsed.webppl ]]; then
 	echo "Creating webppl model files ..."
 	cp models/collapsed.webppl $MYHOME/gen/collapsed.webppl
 	cp models/uncollapsed.webppl $MYHOME/gen/uncollapsed.webppl
-	sed -i '' "s#N = .*;#N = $N;#;s#L = .*;#L = $L;#;s#D = .*;#D = $D;#;s#STEPS = .*;#STEPS = 1;#;s#SAMPLES = .*;#SAMPLES = $SAMPLES_STAN_UC;#;s#LOADPATH = .*;#LOADPATH = '$MYHOME/gen/webppl_uc_es.json';#" $MYHOME/gen/collapsed.webppl
-	sed -i '' "s#N = .*;#N = $N;#;s#L = .*;#L = $L;#;s#D = .*;#D = $D;#;s#STEPS = .*;#STEPS = 1;#;s#SAMPLES = .*;#SAMPLES = $SAMPLES_STAN_C;#;s#LOADPATH = .*;#LOADPATH = '$MYHOME/gen/webppl_c_es.json';#" $MYHOME/gen/uncollapsed.webppl
+	sed -i.bak "s#N = .*;#N = $N;#;s#L = .*;#L = $L;#;s#D = .*;#D = $D;#;s#STEPS = .*;#STEPS = 1;#;s#SAMPLES = .*;#SAMPLES = $SAMPLES_STAN_UC;#;s#LOADPATH = .*;#LOADPATH = '$MYHOME/gen/webppl_uc_es.json';#" $MYHOME/gen/collapsed.webppl
+	sed -i.bak "s#N = .*;#N = $N;#;s#L = .*;#L = $L;#;s#D = .*;#D = $D;#;s#STEPS = .*;#STEPS = 1;#;s#SAMPLES = .*;#SAMPLES = $SAMPLES_STAN_C;#;s#LOADPATH = .*;#LOADPATH = '$MYHOME/gen/webppl_c_es.json';#" $MYHOME/gen/uncollapsed.webppl
 fi
 
 if [[ ! -f $MYHOME/gen/webppl_uc_es.json ]]; then
 	echo "Creating exact samples ..."
-	sed -i '' "s#LOADPATH = .*;#LOADPATH = undefined;#;s#SAVEPATH = .*;#SAVEPATH = '$MYHOME/gen/webppl_uc_es.json';#" $MYHOME/gen/uncollapsed.webppl
-	sed -i '' "s#LOADPATH = .*;#LOADPATH = undefined;#;s#SAVEPATH = .*;#SAVEPATH = '$MYHOME/gen/webppl_c_es.json';#" $MYHOME/gen/collapsed.webppl
+	sed -i.bak "s#LOADPATH = .*;#LOADPATH = undefined;#;s#SAVEPATH = .*;#SAVEPATH = '$MYHOME/gen/webppl_uc_es.json';#" $MYHOME/gen/uncollapsed.webppl
+	sed -i.bak "s#LOADPATH = .*;#LOADPATH = undefined;#;s#SAVEPATH = .*;#SAVEPATH = '$MYHOME/gen/webppl_c_es.json';#" $MYHOME/gen/collapsed.webppl
 	webppl/webppl $MYHOME/gen/uncollapsed.webppl --random-seed $SEED > /dev/null
 	webppl/webppl $MYHOME/gen/collapsed.webppl --random-seed $SEED > /dev/null
-	sed -i '' "s#LOADPATH = .*;#LOADPATH = '$MYHOME/gen/webppl_uc_es.json';#;s#SAVEPATH = .*;#SAVEPATH = undefined;#" $MYHOME/gen/uncollapsed.webppl
-	sed -i '' "s#LOADPATH = .*;#LOADPATH = '$MYHOME/gen/webppl_c_es.json';#;s#SAVEPATH = .*;#SAVEPATH = undefined;#" $MYHOME/gen/collapsed.webppl
+	sed -i.bak "s#LOADPATH = .*;#LOADPATH = '$MYHOME/gen/webppl_uc_es.json';#;s#SAVEPATH = .*;#SAVEPATH = undefined;#" $MYHOME/gen/uncollapsed.webppl
+	sed -i.bak "s#LOADPATH = .*;#LOADPATH = '$MYHOME/gen/webppl_c_es.json';#;s#SAVEPATH = .*;#SAVEPATH = undefined;#" $MYHOME/gen/collapsed.webppl
 	python $MYHOME/scripts/convert_es.py $N $L $D $MYHOME/gen/webppl_uc_es.json $MYHOME/gen/webppl_c_es.json $MYHOME/gen/stan_uc_es.txt $MYHOME/gen/stan_c_es.txt
 fi
 
@@ -83,7 +83,7 @@ for STEPS in ${STEPS_WEBPPL_UC[*]}; do
 	MODEL_FILE="$MYHOME/gen/model-files/uc_${STEPS}_${SAMPLES_WEBPPL_UC}.webppl"
 	if [ ! -f $OUTPUT_FILE ]; then
 		cp $MYHOME/gen/uncollapsed.webppl $MODEL_FILE
-		sed -i '' "s#STEPS = .*;#STEPS = $STEPS;#" $MODEL_FILE
+		sed -i.bak "s#STEPS = .*;#STEPS = $STEPS;#" $MODEL_FILE
 		echo "eval webppl/webppl $MODEL_FILE --random-seed $SEED > $OUTPUT_FILE" >> $MYHOME/jobs.list
 	fi
 done
@@ -92,7 +92,7 @@ for STEPS in ${STEPS_WEBPPL_C[*]}; do
 	MODEL_FILE="$MYHOME/gen/model-files/c_${STEPS}_${SAMPLES_WEBPPL_C}.webppl"
 	if [ ! -f $OUTPUT_FILE ]; then
 		cp $MYHOME/gen/collapsed.webppl $MODEL_FILE
-		sed -i '' "s#STEPS = .*;#STEPS = $STEPS;#" $MODEL_FILE
+		sed -i.bak "s#STEPS = .*;#STEPS = $STEPS;#" $MODEL_FILE
 		echo "eval webppl/webppl $MODEL_FILE --random-seed $SEED > $OUTPUT_FILE" >> $MYHOME/jobs.list
 	fi
 done
