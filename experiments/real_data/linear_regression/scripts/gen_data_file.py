@@ -13,7 +13,7 @@ def standardize(X):
 	return X
 
 def read_nhefs_data():
-	f = open("experiments/real_data/nhefs_book.csv", "r")
+	f = open("experiments/real_data/linear_regression/nhefs_book.csv", "r")
 	cols = ['qsmk', 'sex', 'age', 'race', 'smokeyrs', 'wt82_71']
 	lines = [line.rstrip().split(',') for line in f.readlines()]
 	indices = [lines[0].index(head) for head in cols]

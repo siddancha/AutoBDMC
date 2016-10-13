@@ -7,7 +7,7 @@ SAMPLES=50
 WARMUP=1000
 SEED=18
 
-MYHOME=experiments/fixed_hp
+MYHOME=experiments/fixed_hp/linear_regression
 
 if [[ $@ =~ --clean ]]; then
 	printf "Cleaning experiment files ... "
@@ -77,7 +77,7 @@ else
 fi
 
 echo "Creating plots ... "
-python -m experiments.fixed_hp.scripts.plot
+python -m experiments.fixed_hp.linear_regression.scripts.plot
 echo "Note: Figures are now available in $MYHOME/plots"
 
 echo "Done."

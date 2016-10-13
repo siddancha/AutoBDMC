@@ -3,8 +3,8 @@ import numpy as np
 from plotting.util import read_files_dict, pretty_xlim
 
 def main():
-	s_dict = read_files_dict("experiments/real_data/results/synthetic")
-	r_dict = read_files_dict("experiments/real_data/results/real")
+	s_dict = read_files_dict("experiments/real_data/linear_regression/results/synthetic")
+	r_dict = read_files_dict("experiments/real_data/linear_regression/results/real")
 	
 	fig, ax1 = plt.subplots()
 	all_steps = np.concatenate([s_dict["aisSteps"], s_dict["raisSteps"], r_dict["aisSteps"]])
@@ -39,7 +39,7 @@ def main():
 	h1, l1 = ax1.get_legend_handles_labels()
 	h2, l2 = ax2.get_legend_handles_labels()
 	ax1.legend(h1 + h2, l1 + l2, loc="lower right")
-	plt.savefig("experiments/real_data/plots/plot.pdf", format='pdf', dpi=1000)
+	plt.savefig("experiments/real_data/linear_regression/plots/plot.pdf", format='pdf', dpi=1000)
 
 if __name__ == '__main__':
 	main()

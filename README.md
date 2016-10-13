@@ -3,7 +3,7 @@
 bound log likelihoods of synthetic data via annealed importance sampling in an automated fashion by integrating it with probabilisitic
 programming languages, such as Stan and WebPPL.
 
-This repository contains an implementation of this tool in Stan (and WebPPL), as well as experiments that validate the use of this tool
+This repository contains an implementation of this tool in Stan and WebPPL, as well as experiments that validate the use of this tool
 and demonstrate scientific findings produced by it.
 
 ## Instructions
@@ -13,9 +13,9 @@ Run: <code>make install</code>
 
 This installs WebPPL. Stan need not be installed as it compiles on the go.
 ### Experiments
-Each experiment is represented by a subfolder in the "experiments" folder. To run an experiment from scratch, run
+Each experiment is represented by a sub-sub-folder in the "experiments" folder. To run an experiment from scratch, run
 ```sh
-bash experiments/<EXP_NAME>/scripts/main.sh [--run] [--parallel] [--clean]
+bash experiments/<EXP_NAME>/<SUBEXP_NAME>/scripts/main.sh [--run] [--parallel] [--clean]
 ```
 <ol>
 <li><code>--run</code><br>
@@ -29,6 +29,6 @@ jobs.<br>
 The script generates data files, exact-sample files, job lists, results and plots. Use this flag to delete all generated files and clean the directory, in order to re-run the experiment. <em>Caution</em>: all unsaved work will be lost.
 </ol>
 
-Example: <code>bash experiments/mf/scripts/main.sh --run --parallel</code>
+Example: <code>bash experiments/fixed_hp/linear_regression/scripts/main.sh --run --parallel</code>
 
-After the script finishes execution, generated plots will be available in experiments/<i>EXP_NAME</i>/plots.
+After the script finishes execution, generated plots will be available in experiments/<i>EXP_NAME</i>/<i>SUBEXP_NAME</i>/plots.
