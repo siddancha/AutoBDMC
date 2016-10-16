@@ -1,10 +1,13 @@
 import matplotlib.pyplot as plt
 import numpy as np
 from plotting.util import read_files_dict, pretty_xlim
+import sys
 
 def main():
-	s_dict = read_files_dict("experiments/real_data/linear_regression/results/synthetic")
-	r_dict = read_files_dict("experiments/real_data/linear_regression/results/real")
+	SUBEXP, MODELNAME = sys.argv[1], sys.argv[2].replace('_', ' ')
+	subexp_folder = str.format("experiments/real_data/{0}", SUBEXP)
+	s_dict = read_files_dict(subexp_folder + "/results/synthetic")
+	r_dict = read_files_dict(subexp_folder + "/results/real")
 	
 	fig, ax1 = plt.subplots()
 	all_steps = np.concatenate([s_dict["aisSteps"], s_dict["raisSteps"], r_dict["aisSteps"]])
@@ -35,11 +38,11 @@ def main():
 	ax1.set_ylim(s_converge - del_low, s_converge + del_high)
 	ax2.set_ylim(r_converge - del_low, r_converge + del_high)
 	
-	plt.title("Real dataset validation - Bayesian Linear Regression")
+	plt.title("Real Dataset Validation - " + MODELNAME)
 	h1, l1 = ax1.get_legend_handles_labels()
 	h2, l2 = ax2.get_legend_handles_labels()
 	ax1.legend(h1 + h2, l1 + l2, loc="lower right")
-	plt.savefig("experiments/real_data/linear_regression/plots/plot.pdf", format='pdf', dpi=1000)
+	plt.savefig(subexp_folder + "/plots/plot.pdf", format='pdf', dpi=1000)
 
 if __name__ == '__main__':
 	main()
