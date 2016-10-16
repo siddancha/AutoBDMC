@@ -1,6 +1,5 @@
 # User options.
-# K=
-# N=
+# GEN_DATA_ARGS=
 # STEPS_LIST=
 # SAMPLES=
 # WARMUP=
@@ -39,7 +38,7 @@ fi
 
 if [[ ! -f $MYHOME/gen/real.data.R ]]; then
 	echo "Creating data file ..."
-	python -m experiments.real_data.$SUBEXPERIMENT.scripts.gen_data_file > $MYHOME/gen/real.data.R
+	python -m experiments.real_data.$SUBEXPERIMENT.scripts.gen_data_file $GEN_DATA_ARGS > $MYHOME/gen/real.data.R
 fi
 
 if [[ ! -f $MYHOME/gen/exact_sample.txt ]]; then

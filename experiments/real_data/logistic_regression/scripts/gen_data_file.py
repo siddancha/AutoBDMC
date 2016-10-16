@@ -4,11 +4,6 @@ import numpy as np
 def read_pima_data():
 	f = open("experiments/real_data/logistic_regression/pima-indians-diabetes.data", "r")
 	data = [[float(elem) for elem in line.rstrip().split(',')] for line in f.readlines()]
-	# cols = ['qsmk', 'sex', 'age', 'race', 'smokeyrs', 'wt82_71']
-	# lines = [line.rstrip().split(',') for line in f.readlines()]
-	# indices = [lines[0].index(head) for head in cols]
-	# lines = [[line[index] for index in indices] for line in lines[1:]]
-	# lines = [[float(elem) for elem in line] for line in lines if '' not in line]
 	XY = standardize(np.array(data))
 	X = XY[:,:-1]
 	Y = XY[:,-1].astype('int')
