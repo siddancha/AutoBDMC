@@ -1,6 +1,5 @@
 # User options.
-# N=
-# K=
+# GEN_DATA_ARGS=
 # BURN_LIST=
 # STEPS_LIST=
 # SAMPLES=
@@ -45,7 +44,7 @@ fi
 
 if [[ ! -f $MYHOME/gen/$MODEL.data.R ]]; then
 	echo "Creating data file ..."
-	python -m experiments.fixed_hp.$SUBEXPERIMENT.scripts.gen_data_file $N $K $SEED > $MYHOME/gen/$MODEL.data.R
+	python -m experiments.fixed_hp.$SUBEXPERIMENT.scripts.gen_data_file $GEN_DATA_ARGS $SEED > $MYHOME/gen/$MODEL.data.R
 fi
 
 if [[ ! -f $MYHOME/gen/exact_sample.txt ]]; then
