@@ -59,10 +59,11 @@ def main():
 	plt.xlabel("Time (in sec)")
 	plt.ylabel("Jeffreys Divergence (nats)")
 	plt.title("Collapsed and Uncollapsed Matrix Factorization in Stan and WebPPL", fontsize=12)
-	plt.legend(loc='upper right', prop={'size': 12})
+	plt.legend(loc='lower left', prop={'size': 12})
 	all_steps = np.concatenate([ucDivStanTimes, cDivStanTimes, ucDivWebpplTimes, cDivWebpplTimes])
 	plt.xscale('log')
 	plt.xlim(*pretty_xlim(min(all_steps), max(all_steps), scale='log'))
+	plt.yscale('log')
 	plt.savefig('experiments/mf/stan-webppl/plots/gaps.pdf', format='pdf', dpi=1000)
 
 if __name__ == '__main__':
