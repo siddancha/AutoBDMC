@@ -9,7 +9,4 @@ SEED=1
 SUBEXPERIMENT=matrix_factorization
 MODEL=mf_partial_obs
 
-# Plotting options.
-MODELNAME=Matrix_Factorization
-
 source experiments/real_data/__common/main.sh

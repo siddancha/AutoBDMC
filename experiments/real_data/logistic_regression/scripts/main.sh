@@ -9,7 +9,4 @@ SEED=2
 SUBEXPERIMENT=logistic_regression
 MODEL=log_regression
 
-# Plotting options.
-MODELNAME=Logistic_Regression
-
 source experiments/real_data/__common/main.sh

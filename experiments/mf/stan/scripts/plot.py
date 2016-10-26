@@ -23,13 +23,14 @@ def main():
 	cDivUppers = c_dict["raisUppers"] + c_dict["aisLowers"]
 	plt.errorbar(cDivSteps, cDivMeans, np.array([cDivLowers, cDivUppers]), c='blue', label='Collapsed')
 		
-	plt.xlabel("HMC/No-U-Turn Steps")
-	plt.ylabel("Jeffreys Divergence (nats)")
-	plt.title("Collapsed vs Uncollapsed Matrix Factorization - Steps")
-	plt.legend(loc="upper right")
+	plt.xlabel("No. of HMC/No-U-Turn steps", fontsize='xx-large')
+	plt.ylabel("Jeffreys divergence (nats)", fontsize='xx-large')
+	plt.legend(loc="upper right", fontsize='xx-large')
 	all_steps = np.concatenate([ucDivSteps, cDivSteps])
 	plt.xscale('log')
 	plt.xlim(*pretty_xlim(min(all_steps), max(all_steps), scale='log'))
+	plt.tick_params(labelsize='xx-large')
+	plt.tight_layout()
 	plt.savefig('experiments/mf/stan/plots/steps.pdf', format='pdf', dpi=1000)
 	plt.clf()
 	
@@ -49,13 +50,14 @@ def main():
 	cDivUppers = c_dict["raisUppers"] + c_dict["aisLowers"]
 	plt.errorbar(cDivTimes, cDivMeans, np.array([cDivLowers, cDivUppers]), c='blue', label='Collapsed')
 
-	plt.xlabel("Time (in sec)")
-	plt.ylabel("Jeffreys Divergence (nats)")
-	plt.title("Collapsed vs Uncollapsed Matrix Factorization - Time")
-	plt.legend(loc="upper right")
+	plt.xlabel("Time (in sec)", fontsize='xx-large')
+	plt.ylabel("Jeffreys divergence (nats)", fontsize='xx-large')
+	plt.legend(loc="upper right", fontsize='xx-large')
 	all_times = np.concatenate([ucDivTimes, cDivTimes])
 	plt.xscale('log')
 	plt.xlim(*pretty_xlim(min(all_times), max(all_times), scale='log'))
+	plt.tick_params(labelsize='xx-large')
+	plt.tight_layout()
 	plt.savefig('experiments/mf/stan/plots/times.pdf', format='pdf', dpi=1000)
 
 if __name__ == '__main__':

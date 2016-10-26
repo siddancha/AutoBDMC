@@ -9,7 +9,4 @@ SEED=1
 SUBEXPERIMENT=linear_regression
 MODEL=lin_regression
 
-# Plotting options.
-MODELNAME=Linear_Regression
-
 source experiments/real_data/__common/main.sh

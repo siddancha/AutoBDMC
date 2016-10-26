@@ -11,9 +11,6 @@
 # MODEL=
 # FIXED_HP_MODEL=
 
-# Plotting options.
-# MODELNAME=
-
 MYHOME=experiments/fixed_hp/$SUBEXPERIMENT
 
 if [[ $@ =~ --clean ]]; then
@@ -84,7 +81,7 @@ else
 fi
 
 echo "Creating plots ... "
-python -m experiments.fixed_hp.__common.plot $SUBEXPERIMENT $MODELNAME
+python -m experiments.fixed_hp.__common.plot $SUBEXPERIMENT
 echo "Note: Figures are now available in $MYHOME/plots"
 
 echo "Done."

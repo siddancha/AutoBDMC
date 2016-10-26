@@ -11,7 +11,4 @@ SUBEXPERIMENT=logistic_regression
 MODEL=log_regression_hp
 FIXED_HP_MODEL=lr_fixed_hp
 
-# Plotting options.
-MODELNAME=Logistic_Regression
-
 source experiments/fixed_hp/__common/main.sh

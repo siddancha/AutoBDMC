@@ -11,7 +11,4 @@ SUBEXPERIMENT=time_series
 MODEL=autoregressive_hp
 FIXED_HP_MODEL=ar_fixed_hp
 
-# Plotting options.
-MODELNAME=Time_Series
-
 source experiments/fixed_hp/__common/main.sh

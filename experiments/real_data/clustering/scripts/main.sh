@@ -14,9 +14,6 @@ SEED=3
 SUBEXPERIMENT=clustering
 MODEL=clustering
 
-# Plotting options.
-MODELNAME=Clustering
-
 MYHOME=experiments/real_data/$SUBEXPERIMENT
 
 if [[ $@ =~ --clean ]]; then
@@ -85,7 +82,7 @@ else
 fi
 
 echo "Creating plots ... "
-python -m experiments.real_data.__common.plot $SUBEXPERIMENT $MODELNAME 
+python -m experiments.real_data.__common.plot $SUBEXPERIMENT
 echo "Note: Figures are now available in $MYHOME/plots"
 
 echo "Done."

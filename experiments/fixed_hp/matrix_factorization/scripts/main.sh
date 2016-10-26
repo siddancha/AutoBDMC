@@ -11,7 +11,4 @@ SUBEXPERIMENT=matrix_factorization
 MODEL=uncollapsed_hp
 FIXED_HP_MODEL=uncollapsed_fixed_hp
 
-# Plotting options.
-MODELNAME=Matrix_Factorization
-
 source experiments/fixed_hp/__common/main.sh

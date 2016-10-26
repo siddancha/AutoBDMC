@@ -9,7 +9,4 @@ SEED=1
 SUBEXPERIMENT=time_series
 MODEL=autoregressive
 
-# Plotting options.
-MODELNAME=Time_Series
-
 source experiments/real_data/__common/main.sh
