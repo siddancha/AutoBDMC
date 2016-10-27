@@ -15,7 +15,7 @@ def main():
 			read_files(subexp_folder + '/results/' + burn_folder, "steps")
 		plt.errorbar(raisSteps, raisMeans, np.array([raisLowers, raisUppers]), label=str(burn))
 		xmin, xmax = min(xmin, min(raisSteps)), max(xmax, max(raisSteps))
-	plt.xlabel("No. of HMC/No-U-Turn steps", fontsize='xx-large')
+	plt.xlabel("Number of steps", fontsize='xx-large')
 	plt.ylabel("Log ML estimate", fontsize='xx-large')
 	plt.legend(loc="upper right", fontsize='xx-large')
 	plt.xscale("log")
@@ -36,7 +36,7 @@ def main():
 	legend_handles.append(ahandle)
 	legend_labels.append('AIS')
 
-	plt.xlabel("No. of HMC/No-U-Turn steps", fontsize='xx-large')
+	plt.xlabel("Number of steps", fontsize='xx-large')
 	plt.ylabel("Log ML estimate", fontsize='xx-large')
 	plt.legend(legend_handles, legend_labels, loc="lower right", fontsize='xx-large')
 	plt.xscale("log")

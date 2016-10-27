@@ -23,8 +23,8 @@ def main():
 	cDivUppers = c_dict["raisUppers"] + c_dict["aisLowers"]
 	plt.errorbar(cDivSteps, cDivMeans, np.array([cDivLowers, cDivUppers]), c='blue', label='Collapsed')
 		
-	plt.xlabel("No. of HMC/No-U-Turn steps", fontsize='xx-large')
-	plt.ylabel("Jeffreys divergence (nats)", fontsize='xx-large')
+	plt.xlabel("Number of steps", fontsize='xx-large')
+	plt.ylabel("Jeffreys divergence bound (nats)", fontsize='xx-large')
 	plt.legend(loc="upper right", fontsize='xx-large')
 	all_steps = np.concatenate([ucDivSteps, cDivSteps])
 	plt.xscale('log')
@@ -51,7 +51,7 @@ def main():
 	plt.errorbar(cDivTimes, cDivMeans, np.array([cDivLowers, cDivUppers]), c='blue', label='Collapsed')
 
 	plt.xlabel("Time (in sec)", fontsize='xx-large')
-	plt.ylabel("Jeffreys divergence (nats)", fontsize='xx-large')
+	plt.ylabel("Jeffreys divergence bound (nats)", fontsize='xx-large')
 	plt.legend(loc="upper right", fontsize='xx-large')
 	all_times = np.concatenate([ucDivTimes, cDivTimes])
 	plt.xscale('log')

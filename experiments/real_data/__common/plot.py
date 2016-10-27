@@ -14,7 +14,7 @@ def main():
 	
 	ax1.errorbar(s_dict["raisSteps"], s_dict["raisMeans"], np.array([s_dict["raisLowers"], s_dict["raisUppers"]]), c='darkred', label='synthetic-RAIS')
 	ax1.errorbar(s_dict["aisSteps"], s_dict["aisMeans"], np.array([s_dict["aisLowers"], s_dict["aisUppers"]]), c='red', label='synthetic-AIS')
-	ax1.set_xlabel("No. of HMC/No-U-Turn steps", fontsize='xx-large')
+	ax1.set_xlabel("Number of steps", fontsize='xx-large')
 	ax1.set_ylabel("Log ML estimate", fontsize='xx-large')
 	ax1.set_xlim(*pretty_xlim(min(all_steps), max(all_steps), scale='log'))
 	ax1.set_xscale('log')

@@ -58,7 +58,7 @@ def main():
 	plt.errorbar(cDivWebpplTimes, cDivWebpplMeans, np.array([cDivWebpplLowers, cDivWebpplUppers]), c='darkblue', label='WebPPL (c)')
 
 	plt.xlabel("Time (in sec)", fontsize='xx-large')
-	plt.ylabel("Jeffreys divergence (nats)", fontsize='xx-large')
+	plt.ylabel("Jeffreys divergence bound (nats)", fontsize='xx-large')
 	plt.legend(loc='lower left', fontsize='x-large')
 	all_times = np.concatenate([ucDivStanTimes, cDivStanTimes, ucDivWebpplTimes, cDivWebpplTimes])
 	plt.xscale('log')
@@ -126,7 +126,7 @@ def main():
 	plt.errorbar(cDivWebpplSteps, cDivWebpplMeans, np.array([cDivWebpplLowers, cDivWebpplUppers]), c='darkblue', label='WebPPL (c)')
 
 	plt.xlabel("Number of steps", fontsize='xx-large')
-	plt.ylabel("Jeffreys divergence (nats)", fontsize='xx-large')
+	plt.ylabel("Jeffreys divergence bound (nats)", fontsize='xx-large')
 	plt.legend(loc='lower left', fontsize='x-large')
 	all_steps = np.concatenate([ucDivStanSteps, cDivStanSteps, ucDivWebpplSteps, cDivWebpplSteps])
 	plt.xscale('log')
