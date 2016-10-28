@@ -1,12 +1,12 @@
 # User options.
 GEN_DATA_ARGS=
-STEPS_LIST=( 10 20 30 40 50 60 70 80 90 100 200 300 400 600 800 1000 )
-SAMPLES=100
+STEPS_LIST=( 10 20 40 80 160 320 640 800 1000 1200 )
+SAMPLES=50
+BURN=100
 WARMUP=1000
 SEED=1
 
 # Subexperiment options.
-SUBEXPERIMENT=linear_regression
-MODEL=lin_regression
+MODEL=linear_regression
 
 source experiments/real_data/__common/main.sh

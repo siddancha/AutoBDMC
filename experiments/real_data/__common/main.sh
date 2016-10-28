@@ -2,14 +2,14 @@
 # GEN_DATA_ARGS=
 # STEPS_LIST=
 # SAMPLES=
+# BURN=
 # WARMUP=
 # SEED=
 
 # Subexperiment options.
-# SUBEXPERIMENT=
 # MODEL=
 
-MYHOME=experiments/real_data/$SUBEXPERIMENT
+MYHOME=experiments/real_data/$MODEL
 
 if [[ $@ =~ --clean ]]; then
 	printf "Cleaning experiment files ... "
@@ -28,19 +28,29 @@ if [[ ! -d $MYHOME/gen ]]; then
 	mkdir $MYHOME/plots
 fi
 
-if [[ ! -f models/$MODEL ]]; then
-	echo "Compiling $MODEL.stan ..."
-	make -C cmdstan ../models/$MODEL
+if [[ ! -f models/variable_hp/$MODEL ]]; then
+	echo "Compiling $MODEL.stan (variable-hp) ..."
+	make -C cmdstan ../models/variable_hp/$MODEL
+fi
+
+if [[ ! -f models/fixed_hp/$MODEL ]]; then
+	echo "Compiling $MODEL.stan (fixed-hp) ..."
+	make -C cmdstan ../models/fixed_hp/$MODEL
 fi
 
 if [[ ! -f $MYHOME/gen/real.data.R ]]; then
 	echo "Creating data file ..."
-	python -m experiments.real_data.$SUBEXPERIMENT.scripts.gen_data_file $GEN_DATA_ARGS > $MYHOME/gen/real.data.R
+	python -m datasets.$MODEL.gen_data_file $GEN_DATA_ARGS > $MYHOME/gen/real.data.R
 fi
 
-if [[ ! -f $MYHOME/gen/exact_sample.txt ]]; then
-	echo "Creating exact sample ..."
-	models/$MODEL bdmc schedule=sigmoidal num_warmup=10 iterations start_steps=10 exact_sample save_file=$MYHOME/gen/exact_sample.txt save_samples=0 data file=$MYHOME/gen/real.data.R output file= random seed=$SEED > /dev/null
+if [[ ! -f $MYHOME/gen/fixed_hp_es.txt ]]; then
+	echo "Creating fixed hyperparameter exact sample ..."
+	models/fixed_hp/$MODEL bdmc schedule=sigmoidal num_warmup=10 iterations start_steps=10 exact_sample save_file=$MYHOME/gen/fixed_hp_es.txt save_samples=0 data file=$MYHOME/gen/real.data.R output file= random seed=$SEED > /dev/null
+fi
+
+if [[ ! -f $MYHOME/gen/variable_hp_es.txt ]]; then
+	echo "Creating variable hyperparameter exact sample ..."
+	models/variable_hp/$MODEL bdmc schedule=sigmoidal num_warmup=10 iterations start_steps=10 exact_sample save_file=$MYHOME/gen/variable_hp_es.txt save_samples=0 data file=$MYHOME/gen/real.data.R output file= random seed=$SEED > /dev/null
 fi
 
 if [[ ! -d $MYHOME/results ]]; then
@@ -56,13 +66,13 @@ touch $MYHOME/jobs.list
 for STEPS in ${STEPS_LIST[*]}; do
 	OUTPUT_FILE="$MYHOME/results/synthetic/output_${STEPS}_${SAMPLES}.csv"
 	if [[ ! -f $OUTPUT_FILE ]]; then
-		echo "models/$MODEL bdmc schedule=sigmoidal num_warmup=$WARMUP ais num_weights=$SAMPLES rais num_weights=$SAMPLES iterations start_steps=$STEPS exact_sample load_file=$MYHOME/gen/exact_sample.txt data file=$MYHOME/gen/real.data.R output file=$OUTPUT_FILE random seed=$SEED" >> $MYHOME/jobs.list
+		echo "models/variable_hp/$MODEL bdmc schedule=sigmoidal num_warmup=$WARMUP ais num_weights=$SAMPLES rais num_weights=$SAMPLES num_burn_in=$BURN iterations start_steps=$STEPS exact_sample load_posterior_file=$MYHOME/gen/fixed_hp_es.txt load_prior_file=$MYHOME/gen/variable_hp_es.txt data file=$MYHOME/gen/real.data.R output file=$OUTPUT_FILE random seed=$SEED" >> $MYHOME/jobs.list
 	fi
 done
 for STEPS in ${STEPS_LIST[*]}; do
 	OUTPUT_FILE="$MYHOME/results/real/output_${STEPS}_${SAMPLES}.csv"
 	if [[ ! -f $OUTPUT_FILE ]]; then
-		echo "models/$MODEL bdmc schedule=sigmoidal num_warmup=$WARMUP ais num_weights=$SAMPLES sample_data=0 rais num_weights=1 iterations start_steps=$STEPS exact_sample load_file=$MYHOME/gen/exact_sample.txt data file=$MYHOME/gen/real.data.R output file=$OUTPUT_FILE random seed=$SEED" >> $MYHOME/jobs.list
+		echo "models/variable_hp/$MODEL bdmc schedule=sigmoidal num_warmup=$WARMUP ais num_weights=$SAMPLES sample_data=0 rais num_weights=1 iterations start_steps=$STEPS exact_sample load_posterior_file=$MYHOME/gen/fixed_hp_es.txt load_prior_file=$MYHOME/gen/variable_hp_es.txt data file=$MYHOME/gen/real.data.R output file=$OUTPUT_FILE random seed=$SEED" >> $MYHOME/jobs.list
 	fi
 done
 
@@ -77,7 +87,7 @@ else
 fi
 
 echo "Creating plots ... "
-python -m experiments.real_data.__common.plot $SUBEXPERIMENT
+python -m experiments.real_data.__common.plot $MODEL
 echo "Note: Figures are now available in $MYHOME/plots"
 
 echo "Done."
