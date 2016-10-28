@@ -31,7 +31,7 @@ def main():
 		tl.set_color('blue')
 
 	# Alignment
-	s_converge = s_dict["raisMeans"].min()
+	s_converge = s_dict["aisMeans"].max()
 	r_converge = r_dict["aisMeans"].max()
 	y1_low, y1_high = ax1.get_ylim()
 	y2_low, y2_high = ax2.get_ylim()
