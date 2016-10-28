@@ -20,9 +20,9 @@ model {
 	matrix[N,D] UV;
 
 	// Sampling hyperparameters.
-	scale_u ~ cauchy(0, 5)
-	scale_v ~ cauchy(0, 5)
-	sigma ~ cauchy(0, 5)
+	scale_u ~ cauchy(0, 5);
+	scale_v ~ cauchy(0, 5);
+	sigma ~ cauchy(0, 5);
 
 	// Sampling parameters.
 	for (i in 1:N)

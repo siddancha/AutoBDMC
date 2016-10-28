@@ -14,9 +14,9 @@ parameters {
 
 model {
   // Fixed hyperparameters.
-  alpha ~ normal(VAL_ALPHA, 0.00001);
-  beta ~ normal(VAL_BETA, 0.00001);
-  sigma ~ normal(VAL_SIGMA, 0.00001);
+  alpha ~ normal(1.68186, 0.00001);
+  beta ~ normal(0.994648, 0.00001);
+  sigma ~ normal(-4.09258, 0.00001);
   
   // Sampling parameters.
 

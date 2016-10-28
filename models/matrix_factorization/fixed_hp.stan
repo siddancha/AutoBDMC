@@ -20,9 +20,9 @@ model {
 	matrix[N,D] UV;
 
 	// Fixed hyperparameters.
-	scale_u ~ normal(VAL_SCALE_U, 0.00001)
-	scale_v ~ normal(VAL_SCALE_V, 0.00001)
-	sigma ~ normal(VAL_SIGMA, 0.00001)
+	scale_u ~ normal(VAL_SCALE_U, 0.00001);
+	scale_v ~ normal(VAL_SCALE_V, 0.00001);
+	sigma ~ normal(VAL_SIGMA, 0.00001);
 
 	// Sampling parameters.
 	for (i in 1:N)
