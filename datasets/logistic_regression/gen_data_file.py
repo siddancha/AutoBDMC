@@ -1,11 +1,11 @@
-from experiments.real_data.__common.util import print_arr, standardize
+from datasets.util import print_arr, standardize
 import numpy as np
 
 def read_pima_data():
-	f = open("experiments/real_data/logistic_regression/pima-indians-diabetes.data", "r")
+	f = open("datasets/logistic_regression/pima-indians-diabetes.data", "r")
 	data = [[float(elem) for elem in line.rstrip().split(',')] for line in f.readlines()]
-	XY = standardize(np.array(data))
-	X = XY[:,:-1]
+	XY = np.array(data)
+	X = standardize(XY[:,:-1])
 	Y = XY[:,-1].astype('int')
 	return X, Y
 
