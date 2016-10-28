@@ -22,6 +22,8 @@ model {
 	alpha ~ normal(0, sqrt(scale*scale));
 	for (k in 1:K)
 		beta[k] ~ normal(0, sqrt(scale*scale));
+
+	// Sampling data.
 	{
 		vector[N] mu;
 		mu <- x * beta + alpha;

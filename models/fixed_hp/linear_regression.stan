@@ -16,7 +16,7 @@ parameters {
 }
 
 model {
-	// Sampling hyperparameters.
+	// Fixed hyperparameters.
 	sigma ~ normal(-0.946046, 0.00001);
 	scale ~ normal(0.103093, 0.00001);
 
@@ -24,6 +24,8 @@ model {
 	alpha ~ normal(0, sqrt(scale*scale));
 	for (k in 1:K)
 		beta[k] ~ normal(0, sqrt(scale*scale));
+
+	// Sampling data.
 	{
 		vector[N] mu;
 		mu <- x * beta + alpha;
