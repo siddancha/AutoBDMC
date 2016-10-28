@@ -17,8 +17,8 @@ parameters {
 
 model {
 	// Sampling hyperparameters.
-	sigma ~ normal(0.967032, 0.00001);
-	scale ~ normal(0.126251, 0.00001);
+	sigma ~ normal(-0.946046, 0.00001);
+	scale ~ normal(0.103093, 0.00001);
 
 	// Sampling parameters.
 	alpha ~ normal(0, sqrt(scale*scale));
