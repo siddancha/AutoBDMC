@@ -7,7 +7,7 @@ data {
 
 parameters {
 	// Hyperparameters.
-	real scale;
+	real<lower=0> scale_sq;
 
 	// Parameters.
 	real alpha;
@@ -16,12 +16,12 @@ parameters {
 
 model {
 	// Sampling hyperparameters.
-	scale ~ cauchy(0, 5);
+	scale_sq ~ inv_gamma(1, 1);
 
 	// Sampling parameters.
-	alpha ~ normal(0, sqrt(scale*scale));
+	alpha ~ normal(0, sqrt(scale_sq));
 	for (k in 1:K)
-		beta[k] ~ normal(0, sqrt(scale*scale));
+		beta[k] ~ normal(0, sqrt(scale_sq));
 
 	// Sampling data.
 	{
