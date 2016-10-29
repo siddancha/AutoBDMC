@@ -19,7 +19,7 @@ def extract_data_stan(f):
 	raisIndex = lines.index('#-- Rev-AIS --')
 	def extract_list (string):
 		pairs = [elem.split(',') for elem in string[:-2].translate(None, ' [](').split('),')]
-		return [(float(pair[0]), float(pair[1])) for pair in pairs]
+		return [(float(pair[0]), float(pair[1])) for pair in pairs if pair[0] not in ['nan', '-nan']]
 	aisData = [extract_list(line) for line in lines[aisIndex+1:raisIndex]]
 	raisData = [extract_list(line) for line in lines[raisIndex+1:]]
 	return aisData, raisData
