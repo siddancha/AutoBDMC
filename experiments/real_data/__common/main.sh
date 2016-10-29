@@ -43,14 +43,9 @@ if [[ ! -f $MYHOME/gen/real.data.R ]]; then
 	python -m datasets.$MODEL.gen_data_file $GEN_DATA_ARGS > $MYHOME/gen/real.data.R
 fi
 
-if [[ ! -f $MYHOME/gen/fixed_hp_es.txt ]]; then
-	echo "Creating fixed hyperparameter exact sample ..."
-	models/$MODEL/fixed_hp bdmc schedule=sigmoidal num_warmup=10 iterations start_steps=10 exact_sample save_file=$MYHOME/gen/fixed_hp_es.txt save_samples=0 data file=$MYHOME/gen/real.data.R output file= random seed=$SEED > /dev/null
-fi
-
-if [[ ! -f $MYHOME/gen/variable_hp_es.txt ]]; then
-	echo "Creating variable hyperparameter exact sample ..."
-	models/$MODEL/variable_hp bdmc schedule=sigmoidal num_warmup=10 iterations start_steps=10 exact_sample save_file=$MYHOME/gen/variable_hp_es.txt save_samples=0 data file=$MYHOME/gen/real.data.R output file= random seed=$SEED > /dev/null
+if [[ ! -f $MYHOME/gen/exact_sample.txt ]]; then
+	echo "Creating exact sample ..."
+	models/$MODEL/fixed_hp bdmc schedule=sigmoidal num_warmup=10 iterations start_steps=10 exact_sample save_file=$MYHOME/gen/exact_sample.txt save_samples=0 data file=$MYHOME/gen/real.data.R output file= random seed=$SEED > /dev/null
 fi
 
 if [[ ! -d $MYHOME/results ]]; then
@@ -66,13 +61,13 @@ touch $MYHOME/jobs.list
 for STEPS in ${STEPS_LIST[*]}; do
 	OUTPUT_FILE="$MYHOME/results/synthetic/output_${STEPS}_${SAMPLES}.csv"
 	if [[ ! -f $OUTPUT_FILE ]]; then
-		echo "models/$MODEL/variable_hp bdmc schedule=sigmoidal num_warmup=$WARMUP ais num_weights=$SAMPLES rais num_weights=$SAMPLES num_burn_in=$BURN iterations start_steps=$STEPS exact_sample load_posterior_file=$MYHOME/gen/fixed_hp_es.txt load_prior_file=$MYHOME/gen/variable_hp_es.txt data file=$MYHOME/gen/real.data.R output file=$OUTPUT_FILE random seed=$SEED" >> $MYHOME/jobs.list
+		echo "models/$MODEL/variable_hp bdmc schedule=sigmoidal num_warmup=$WARMUP ais num_weights=$SAMPLES rais num_weights=$SAMPLES num_burn_in=$BURN iterations start_steps=$STEPS exact_sample load_posterior_file=$MYHOME/gen/exact_sample.txt data file=$MYHOME/gen/real.data.R output file=$OUTPUT_FILE random seed=$SEED" >> $MYHOME/jobs.list
 	fi
 done
 for STEPS in ${STEPS_LIST[*]}; do
 	OUTPUT_FILE="$MYHOME/results/real/output_${STEPS}_${SAMPLES}.csv"
 	if [[ ! -f $OUTPUT_FILE ]]; then
-		echo "models/$MODEL/variable_hp bdmc schedule=sigmoidal num_warmup=$WARMUP ais num_weights=$SAMPLES sample_data=0 rais num_weights=1 iterations start_steps=$STEPS exact_sample load_posterior_file=$MYHOME/gen/fixed_hp_es.txt load_prior_file=$MYHOME/gen/variable_hp_es.txt data file=$MYHOME/gen/real.data.R output file=$OUTPUT_FILE random seed=$SEED" >> $MYHOME/jobs.list
+		echo "models/$MODEL/variable_hp bdmc schedule=sigmoidal num_warmup=$WARMUP ais num_weights=$SAMPLES sample_data=0 rais num_weights=1 iterations start_steps=$STEPS exact_sample load_posterior_file=$MYHOME/gen/exact_sample.txt data file=$MYHOME/gen/real.data.R output file=$OUTPUT_FILE random seed=$SEED" >> $MYHOME/jobs.list
 	fi
 done
 
