@@ -121,30 +121,30 @@ throw std::runtime_error("*** IF YOU SEE THIS, PLEASE REPORT A BUG ***");
         std::vector<double> vals_r__;
         std::vector<int> vals_i__;
 
-        if (!(context__.contains_r("scale")))
-            throw std::runtime_error("variable scale missing");
-        vals_r__ = context__.vals_r("scale");
+        if (!(context__.contains_r("scale_sq")))
+            throw std::runtime_error("variable scale_sq missing");
+        vals_r__ = context__.vals_r("scale_sq");
         pos__ = 0U;
-        context__.validate_dims("initialization", "scale", "double", context__.to_vec());
-        double scale(0);
-        scale = vals_r__[pos__++];
+        context__.validate_dims("initialization", "scale_sq", "double", context__.to_vec());
+        double scale_sq(0);
+        scale_sq = vals_r__[pos__++];
         try {
-            writer__.scalar_unconstrain(scale);
+            writer__.scalar_lb_unconstrain(0,scale_sq);
         } catch (const std::exception& e) { 
-            throw std::runtime_error(std::string("Error transforming variable scale: ") + e.what());
+            throw std::runtime_error(std::string("Error transforming variable scale_sq: ") + e.what());
         }
 
-        if (!(context__.contains_r("sigma")))
-            throw std::runtime_error("variable sigma missing");
-        vals_r__ = context__.vals_r("sigma");
+        if (!(context__.contains_r("sigma_sq")))
+            throw std::runtime_error("variable sigma_sq missing");
+        vals_r__ = context__.vals_r("sigma_sq");
         pos__ = 0U;
-        context__.validate_dims("initialization", "sigma", "double", context__.to_vec());
-        double sigma(0);
-        sigma = vals_r__[pos__++];
+        context__.validate_dims("initialization", "sigma_sq", "double", context__.to_vec());
+        double sigma_sq(0);
+        sigma_sq = vals_r__[pos__++];
         try {
-            writer__.scalar_unconstrain(sigma);
+            writer__.scalar_lb_unconstrain(0,sigma_sq);
         } catch (const std::exception& e) { 
-            throw std::runtime_error(std::string("Error transforming variable sigma: ") + e.what());
+            throw std::runtime_error(std::string("Error transforming variable sigma_sq: ") + e.what());
         }
 
         if (!(context__.contains_r("mu")))
@@ -208,19 +208,19 @@ throw std::runtime_error("*** IF YOU SEE THIS, PLEASE REPORT A BUG ***");
         // model parameters
         stan::io::reader<T__> in__(params_r__,params_i__);
 
-        T__ scale;
-        (void) scale;   // dummy to suppress unused var warning
+        T__ scale_sq;
+        (void) scale_sq;   // dummy to suppress unused var warning
         if (jacobian__)
-            scale = in__.scalar_constrain(lp__);
+            scale_sq = in__.scalar_lb_constrain(0,lp__);
         else
-            scale = in__.scalar_constrain();
+            scale_sq = in__.scalar_lb_constrain(0);
 
-        T__ sigma;
-        (void) sigma;   // dummy to suppress unused var warning
+        T__ sigma_sq;
+        (void) sigma_sq;   // dummy to suppress unused var warning
         if (jacobian__)
-            sigma = in__.scalar_constrain(lp__);
+            sigma_sq = in__.scalar_lb_constrain(0,lp__);
         else
-            sigma = in__.scalar_constrain();
+            sigma_sq = in__.scalar_lb_constrain(0);
 
         vector<Eigen::Matrix<T__,Eigen::Dynamic,1> > mu;
         size_t dim_mu_0__ = K;
@@ -252,7 +252,7 @@ throw std::runtime_error("*** IF YOU SEE THIS, PLEASE REPORT A BUG ***");
                 current_statement_begin__ = 30;
                 for (int k = 1; k <= K; ++k) {
                     current_statement_begin__ = 31;
-                    stan::math::assign(get_base1_lhs(get_base1_lhs(z,n,"z",1),k,"z",2), (((log(get_base1(pi,k,"pi",1)) - HALF_D_LOG_TWO_PI) - (D * log(sigma))) - (0.5 * (dot_self(subtract(get_base1(mu,k,"mu",1),get_base1(y,n,"y",1))) / (sigma * sigma)))));
+                    stan::math::assign(get_base1_lhs(get_base1_lhs(z,n,"z",1),k,"z",2), (((log(get_base1(pi,k,"pi",1)) - HALF_D_LOG_TWO_PI) - ((0.5 * D) * log(sigma_sq))) - (0.5 * (dot_self(subtract(get_base1(mu,k,"mu",1),get_base1(y,n,"y",1))) / sigma_sq))));
                 }
             }
         } catch (const std::exception& e) {
@@ -278,15 +278,15 @@ throw std::runtime_error("*** IF YOU SEE THIS, PLEASE REPORT A BUG ***");
         // model body
         try {
             current_statement_begin__ = 36;
-            lp_accum_params__.add(cauchy_log<propto__>(scale, 0, 5));
+            lp_accum_params__.add(inv_gamma_log<propto__>(scale_sq, 1, 1));
             current_statement_begin__ = 37;
-            lp_accum_params__.add(cauchy_log<propto__>(sigma, 0, 5));
+            lp_accum_params__.add(inv_gamma_log<propto__>(sigma_sq, 1, 1));
             current_statement_begin__ = 40;
             for (int k = 1; k <= K; ++k) {
                 current_statement_begin__ = 41;
                 for (int d = 1; d <= D; ++d) {
                     current_statement_begin__ = 42;
-                    lp_accum_params__.add(normal_log<propto__>(get_base1(get_base1(mu,k,"mu",1),d,"mu",2), 0, sqrt((scale * scale))));
+                    lp_accum_params__.add(normal_log<propto__>(get_base1(get_base1(mu,k,"mu",1),d,"mu",2), 0, sqrt(scale_sq)));
                 }
             }
             current_statement_begin__ = 43;
@@ -327,10 +327,10 @@ throw std::runtime_error("*** IF YOU SEE THIS, PLEASE REPORT A BUG ***");
 
 
         // declare model parameters
-        double scale(0.0);
-        (void) scale;  // dummy to suppress unused var warning
-        double sigma(0.0);
-        (void) sigma;  // dummy to suppress unused var warning
+        double scale_sq(0.0);
+        (void) scale_sq;  // dummy to suppress unused var warning
+        double sigma_sq(0.0);
+        (void) sigma_sq;  // dummy to suppress unused var warning
         vector<vector_d> mu(K, (vector_d(D)));
         vector_d pi(K);
         (void) pi;  // dummy to suppress unused var warning
@@ -338,8 +338,8 @@ throw std::runtime_error("*** IF YOU SEE THIS, PLEASE REPORT A BUG ***");
         double DUMMY_VAR__(std::numeric_limits<double>::quiet_NaN());
         (void) DUMMY_VAR__;  // suppress unused var warning
         // initialize transformed variables to avoid seg fault on val access
-        stan::math::fill(scale,DUMMY_VAR__);
-        stan::math::fill(sigma,DUMMY_VAR__);
+        stan::math::fill(scale_sq,DUMMY_VAR__);
+        stan::math::fill(sigma_sq,DUMMY_VAR__);
         stan::math::fill(mu,DUMMY_VAR__);
         stan::math::fill(pi,DUMMY_VAR__);
 
@@ -347,15 +347,15 @@ throw std::runtime_error("*** IF YOU SEE THIS, PLEASE REPORT A BUG ***");
         // model body
         try {
             current_statement_begin__ = 36;
-            stan::math::assign(scale, cauchy_rng(0, 5, base_rng__));
+            stan::math::assign(scale_sq, inv_gamma_rng(1, 1, base_rng__));
             current_statement_begin__ = 37;
-            stan::math::assign(sigma, cauchy_rng(0, 5, base_rng__));
+            stan::math::assign(sigma_sq, inv_gamma_rng(1, 1, base_rng__));
             current_statement_begin__ = 40;
             for (int k = 1; k <= K; ++k) {
                 current_statement_begin__ = 41;
                 for (int d = 1; d <= D; ++d) {
                     current_statement_begin__ = 42;
-                    stan::math::assign(get_base1_lhs(get_base1_lhs(mu,k,"mu",1),d,"mu",2), normal_rng(0, sqrt((scale * scale)), base_rng__));
+                    stan::math::assign(get_base1_lhs(get_base1_lhs(mu,k,"mu",1),d,"mu",2), normal_rng(0, sqrt(scale_sq), base_rng__));
                 }
             }
             current_statement_begin__ = 43;
@@ -372,8 +372,8 @@ throw std::runtime_error("*** IF YOU SEE THIS, PLEASE REPORT A BUG ***");
         }
 
         // write parameter vars
-        vars_param__.push_back(scale);
-        vars_param__.push_back(sigma);
+        vars_param__.push_back(scale_sq);
+        vars_param__.push_back(sigma_sq);
         for (int k_1__ = 0; k_1__ < D; ++k_1__) {
             for (int k_0__ = 0; k_0__ < K; ++k_0__) {
                 vars_param__.push_back(mu[k_0__][k_1__]);
@@ -398,8 +398,8 @@ throw std::runtime_error("*** IF YOU SEE THIS, PLEASE REPORT A BUG ***");
 
     void get_param_names(std::vector<std::string>& names__) const {
         names__.resize(0);
-        names__.push_back("scale");
-        names__.push_back("sigma");
+        names__.push_back("scale_sq");
+        names__.push_back("sigma_sq");
         names__.push_back("mu");
         names__.push_back("pi");
         // names__.push_back("z");
@@ -492,16 +492,16 @@ throw std::runtime_error("*** IF YOU SEE THIS, PLEASE REPORT A BUG ***");
         static const char* function__ = "variable_hp_model_namespace::write_array";
         (void) function__; // dummy call to supress warning
         // read-transform, write parameters
-        double scale = in__.scalar_constrain();
-        double sigma = in__.scalar_constrain();
+        double scale_sq = in__.scalar_lb_constrain(0);
+        double sigma_sq = in__.scalar_lb_constrain(0);
         vector<vector_d> mu;
         size_t dim_mu_0__ = K;
         for (size_t k_0__ = 0; k_0__ < dim_mu_0__; ++k_0__) {
             mu.push_back(in__.vector_constrain(D));
         }
         vector_d pi = in__.simplex_constrain(K);
-        vars__.push_back(scale);
-        vars__.push_back(sigma);
+        vars__.push_back(scale_sq);
+        vars__.push_back(sigma_sq);
         for (int k_1__ = 0; k_1__ < D; ++k_1__) {
             for (int k_0__ = 0; k_0__ < K; ++k_0__) {
                 vars__.push_back(mu[k_0__][k_1__]);
@@ -525,7 +525,7 @@ throw std::runtime_error("*** IF YOU SEE THIS, PLEASE REPORT A BUG ***");
                 current_statement_begin__ = 30;
                 for (int k = 1; k <= K; ++k) {
                     current_statement_begin__ = 31;
-                    stan::math::assign(get_base1_lhs(get_base1_lhs(z,n,"z",1),k,"z",2), (((log(get_base1(pi,k,"pi",1)) - HALF_D_LOG_TWO_PI) - (D * log(sigma))) - (0.5 * (dot_self(subtract(get_base1(mu,k,"mu",1),get_base1(y,n,"y",1))) / (sigma * sigma)))));
+                    stan::math::assign(get_base1_lhs(get_base1_lhs(z,n,"z",1),k,"z",2), (((log(get_base1(pi,k,"pi",1)) - HALF_D_LOG_TWO_PI) - ((0.5 * D) * log(sigma_sq))) - (0.5 * (dot_self(subtract(get_base1(mu,k,"mu",1),get_base1(y,n,"y",1))) / sigma_sq))));
                 }
             }
         } catch (const std::exception& e) {
@@ -592,10 +592,10 @@ throw std::runtime_error("*** IF YOU SEE THIS, PLEASE REPORT A BUG ***");
                                  bool include_gqs__ = true) const {
         std::stringstream param_name_stream__;
         param_name_stream__.str(std::string());
-        param_name_stream__ << "scale";
+        param_name_stream__ << "scale_sq";
         param_names__.push_back(param_name_stream__.str());
         param_name_stream__.str(std::string());
-        param_name_stream__ << "sigma";
+        param_name_stream__ << "sigma_sq";
         param_names__.push_back(param_name_stream__.str());
         for (int k_1__ = 1; k_1__ <= D; ++k_1__) {
             for (int k_0__ = 1; k_0__ <= K; ++k_0__) {
@@ -628,10 +628,10 @@ throw std::runtime_error("*** IF YOU SEE THIS, PLEASE REPORT A BUG ***");
                                    bool include_gqs__ = true) const {
         std::stringstream param_name_stream__;
         param_name_stream__.str(std::string());
-        param_name_stream__ << "scale";
+        param_name_stream__ << "scale_sq";
         param_names__.push_back(param_name_stream__.str());
         param_name_stream__.str(std::string());
-        param_name_stream__ << "sigma";
+        param_name_stream__ << "sigma_sq";
         param_names__.push_back(param_name_stream__.str());
         for (int k_1__ = 1; k_1__ <= D; ++k_1__) {
             for (int k_0__ = 1; k_0__ <= K; ++k_0__) {
