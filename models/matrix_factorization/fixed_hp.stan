@@ -20,9 +20,9 @@ model {
 	matrix[N,D] UV;
 
 	// Fixed hyperparameters.
-	scale_u_sq ~ normal(2.16558, 0.00001);
-	scale_v_sq ~ normal(0.60546, 0.00001);
-	sigma_sq ~ normal(0.542796, 0.00001);
+	scale_u_sq ~ normal(0.363352, 0.00001);
+	scale_v_sq ~ normal(0.327693, 0.00001);
+	sigma_sq ~ normal(0.582587, 0.00001);
 
 	// Sampling parameters.
 	for (i in 1:N)
@@ -37,6 +37,6 @@ model {
 	UV <- U * V;
 	for (i in 1:N)
 		for (j in 1:D)
-			if (Y[i,j] > 0)
+			if (Y[i,j] > -999999)
 				Y[i,j] ~ normal(UV[i,j], sqrt(sigma_sq));
 }

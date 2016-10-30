@@ -7,6 +7,7 @@ def read_reduced_movielens_data(N, L, D):
 	data = np.array([line.rstrip().split() for line in f.readlines()], dtype=int)
 	data[:, 0] -= 1
 	data[:, 1] -= 1
+	mean_rating = data[:, 2].astype(float).mean()
 
 	num_users = data[:, 0].max() + 1
 	num_items = data[:, 1].max() + 1
@@ -19,10 +20,10 @@ def read_reduced_movielens_data(N, L, D):
 	user_indices = dict(zip(zip(*sorted(zip(user_freqs, range(num_users))))[1][-1 * N :], range(N)))
 	item_indices = dict(zip(zip(*sorted(zip(item_freqs, range(num_users))))[1][-1 * D :], range(D)))
 
-	Y = -1 * np.ones([N, D], dtype=float)
+	Y = -1e6 * np.ones([N, D], dtype=float)
 	for row in data:
 		if (user_indices.has_key(row[0]) and item_indices.has_key(row[1])):
-			Y[user_indices[row[0]]][item_indices[row[1]]] = row[2]
+			Y[user_indices[row[0]]][item_indices[row[1]]] = row[2] - mean_rating
 
 	return Y
 

@@ -37,6 +37,6 @@ model {
 	UV <- U * V;
 	for (i in 1:N)
 		for (j in 1:D)
-			if (Y[i,j] > 0)
+			if (Y[i,j] > -999999)
 				Y[i,j] ~ normal(UV[i,j], sqrt(sigma_sq));
 }
