@@ -7,9 +7,9 @@ data {
 
 parameters {
 	// Hyperparameters.
-	real scale_u;
-	real scale_v;
-	real sigma;
+	real<lower=0> scale_u_sq;
+	real<lower=0> scale_v_sq;
+	real<lower=0> sigma_sq;
 
 	// Parameters.
 	matrix[N,L] U;
@@ -20,23 +20,23 @@ model {
 	matrix[N,D] UV;
 
 	// Sampling hyperparameters.
-	scale_u ~ cauchy(0, 5);
-	scale_v ~ cauchy(0, 5);
-	sigma ~ cauchy(0, 5);
+	scale_u_sq ~ inv_gamma(1, 1);
+	scale_v_sq ~ inv_gamma(1, 1);
+	sigma_sq ~ inv_gamma(1, 1);
 
 	// Sampling parameters.
 	for (i in 1:N)
 		for (j in 1:L)
-			U[i,j] ~ normal(0, sqrt(scale_u*scale_u));
+			U[i,j] ~ normal(0, sqrt(scale_u_sq));
 
 	for (i in 1:L)
 		for (j in 1:D)
-			V[i,j] ~ normal(0, sqrt(scale_v*scale_v));
+			V[i,j] ~ normal(0, sqrt(scale_v_sq));
 
 	// Sampling data.
 	UV <- U * V;
 	for (i in 1:N)
 		for (j in 1:D)
 			if (Y[i,j] > 0)
-				Y[i,j] ~ normal(UV[i,j], sqrt(sigma*sigma));
+				Y[i,j] ~ normal(UV[i,j], sqrt(sigma_sq));
 }
