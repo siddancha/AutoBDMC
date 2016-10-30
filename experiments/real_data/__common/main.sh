@@ -32,7 +32,6 @@ if [[ ! -f models/$MODEL/variable_hp ]]; then
 	echo "Compiling $MODEL/variable_hp.stan ..."
 	make -C cmdstan ../models/$MODEL/variable_hp
 fi
-
 if [[ ! -f models/$MODEL/fixed_hp ]]; then
 	echo "Compiling $MODEL/fixed_hp.stan ..."
 	make -C cmdstan ../models/$MODEL/fixed_hp
