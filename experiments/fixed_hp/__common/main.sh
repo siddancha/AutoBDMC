@@ -37,7 +37,7 @@ if [[ ! -f models/$MODEL/fixed_hp ]]; then
 	make -C cmdstan ../models/$MODEL/fixed_hp
 fi
 
-if [[ ! -f $MYHOME/gen/$MODEL.data.R ]]; then
+if [[ ! -f $MYHOME/gen/real.data.R ]]; then
 	echo "Creating data file ..."
 	python -m datasets.$MODEL.gen_data_file $GEN_DATA_ARGS > $MYHOME/gen/real.data.R
 fi
