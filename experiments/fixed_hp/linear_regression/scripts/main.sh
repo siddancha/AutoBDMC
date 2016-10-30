@@ -1,14 +1,12 @@
 # User options.
-GEN_DATA_ARGS="100 10"
+GEN_DATA_ARGS=
+STEPS_LIST=( 10 20 30 40 50 60 70 80 90 100 200 300 400 600 800 1000 1200 1500 1800 2000 )
+SAMPLES=100
 BURN_LIST=( 10 100 1000 10000 )
-STEPS_LIST=( 10 20 50 100 200 400 800 1200 1600 2000 2500 3000 3500 4000 4500 )
-SAMPLES=50
 WARMUP=1000
-SEED=18
+SEED=1
 
 # Subexperiment options.
-SUBEXPERIMENT=linear_regression
-MODEL=lin_regression_hp
-FIXED_HP_MODEL=lr_fixed_hp
+MODEL=linear_regression
 
 source experiments/fixed_hp/__common/main.sh
