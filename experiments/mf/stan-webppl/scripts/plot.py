@@ -5,10 +5,10 @@ from plotting.util import read_files_dict, pretty_xlim
 
 def main():
 	
-	webppl_uc_dict = read_files_dict("experiments/mf/stan-webppl/results/webppl/output_uc", sort="times", lang='webppl')
-	webppl_c_dict = read_files_dict("experiments/mf/stan-webppl/results/webppl/output_c", sort="times", lang='webppl')
-	stan_uc_dict = read_files_dict("experiments/mf/stan-webppl/results/stan/output_uc", sort="times", lang='stan')
-	stan_c_dict = read_files_dict("experiments/mf/stan-webppl/results/stan/output_c", sort="times", lang='stan')
+	webppl_uc_dict = read_files_dict("experiments/mf/stan-webppl/results/webppl/output_uc", sort="times", lang='webppl', intervals=True)
+	webppl_c_dict = read_files_dict("experiments/mf/stan-webppl/results/webppl/output_c", sort="times", lang='webppl', intervals=True)
+	stan_uc_dict = read_files_dict("experiments/mf/stan-webppl/results/stan/output_uc", sort="times", lang='stan', intervals=True)
+	stan_c_dict = read_files_dict("experiments/mf/stan-webppl/results/stan/output_c", sort="times", lang='stan', intervals=True)
 
 	plt.errorbar(stan_uc_dict["aisTimes"], stan_uc_dict["aisMeans"], np.array([stan_uc_dict["aisLowers"], stan_uc_dict["aisUppers"]]), c='red', label='Stan (uc)')
 	plt.errorbar(stan_uc_dict["raisTimes"], stan_uc_dict["raisMeans"], np.array([stan_uc_dict["raisLowers"], stan_uc_dict["raisUppers"]]), c='red')
@@ -69,10 +69,10 @@ def main():
 	plt.savefig('experiments/mf/stan-webppl/plots/gaps-times.pdf', format='pdf', dpi=1000)
 	plt.clf()
 
-	webppl_uc_dict = read_files_dict("experiments/mf/stan-webppl/results/webppl/output_uc", sort="steps", lang='webppl')
-	webppl_c_dict = read_files_dict("experiments/mf/stan-webppl/results/webppl/output_c", sort="steps", lang='webppl')
-	stan_uc_dict = read_files_dict("experiments/mf/stan-webppl/results/stan/output_uc", sort="steps", lang='stan')
-	stan_c_dict = read_files_dict("experiments/mf/stan-webppl/results/stan/output_c", sort="steps", lang='stan')
+	webppl_uc_dict = read_files_dict("experiments/mf/stan-webppl/results/webppl/output_uc", sort="steps", lang='webppl', intervals=True)
+	webppl_c_dict = read_files_dict("experiments/mf/stan-webppl/results/webppl/output_c", sort="steps", lang='webppl', intervals=True)
+	stan_uc_dict = read_files_dict("experiments/mf/stan-webppl/results/stan/output_uc", sort="steps", lang='stan', intervals=True)
+	stan_c_dict = read_files_dict("experiments/mf/stan-webppl/results/stan/output_c", sort="steps", lang='stan', intervals=True)
 
 	plt.errorbar(stan_uc_dict["aisSteps"], stan_uc_dict["aisMeans"], np.array([stan_uc_dict["aisLowers"], stan_uc_dict["aisUppers"]]), c='red', label='Stan (uc)')
 	plt.errorbar(stan_uc_dict["raisSteps"], stan_uc_dict["raisMeans"], np.array([stan_uc_dict["raisLowers"], stan_uc_dict["raisUppers"]]), c='red')

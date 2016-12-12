@@ -12,7 +12,7 @@ def main():
 	xmin, xmax = np.inf, -np.inf
 	for burn, burn_folder in zip(burns, folders):
 		aisSteps, aisMeans, aisLowers, aisUppers, aisTimes, raisSteps, raisMeans, raisLowers, raisUppers, raisTimes =\
-			read_files(subexp_folder + '/results/' + burn_folder, "steps")
+			read_files(subexp_folder + '/results/' + burn_folder, sort="steps", intervals=True)
 		plt.errorbar(raisSteps, raisMeans, np.array([raisLowers, raisUppers]), label=str(burn))
 		xmin, xmax = min(xmin, min(raisSteps)), max(xmax, max(raisSteps))
 	plt.xlabel("Number of steps", fontsize='xx-large')

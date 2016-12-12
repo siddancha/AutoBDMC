@@ -7,8 +7,8 @@ def main():
 	uc_trunc = int(sys.argv[1]) if len(sys.argv) > 1 else 0 #8
 	c_trunc = int(sys.argv[2]) if len(sys.argv) > 2 else 0  #-6
 	
-	uc_dict = read_files_dict("experiments/mf/stan/results/output_uc", sort="steps")
-	c_dict = read_files_dict("experiments/mf/stan/results/output_c", sort="steps")
+	uc_dict = read_files_dict("experiments/mf/stan/results/output_uc", sort="steps", intervals=True)
+	c_dict = read_files_dict("experiments/mf/stan/results/output_c", sort="steps", intervals=True)
 	uc_dict = {key:uc_dict[key][:(uc_trunc if uc_trunc != 0 else len(uc_dict[key]))] for key in uc_dict}
 	
 	ucDivSteps = uc_dict["aisSteps"]
@@ -34,8 +34,8 @@ def main():
 	plt.savefig('experiments/mf/stan/plots/steps.pdf', format='pdf', dpi=1000)
 	plt.clf()
 	
-	uc_dict = read_files_dict("experiments/mf/stan/results/output_uc", sort="times")
-	c_dict = read_files_dict("experiments/mf/stan/results/output_c", sort="times")
+	uc_dict = read_files_dict("experiments/mf/stan/results/output_uc", sort="times", intervals=True)
+	c_dict = read_files_dict("experiments/mf/stan/results/output_c", sort="times", intervals=True)
 	c_dict = {key:c_dict[key][:(c_trunc if c_trunc != 0 else len(c_dict[key]))] for key in c_dict}
 
 	ucDivTimes = uc_dict["aisTimes"] + uc_dict["raisTimes"]
